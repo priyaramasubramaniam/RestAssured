@@ -1,11 +1,15 @@
 package com.RestAssured.TestBase;
 
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+
+import com.RestAssured.Utility.RestUtils;
 
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -19,7 +23,16 @@ public class TestBase {
 	public static Response response;
 	
 	//Static Employee id
-	public static String employeeId = "58512";
+	public static String employeeId = "9200";
+	
+	//Static Employee name
+	public static String empName = RestUtils.empName();
+	
+	//Static Employee Salary
+	public static String empSalary = RestUtils.empSalary();
+	
+	//Static Employee Age
+	public static String empAge = RestUtils.empAge();
 	
 	//Logger Object 
 	public Logger logger;
@@ -32,6 +45,7 @@ public class TestBase {
 		logger.setLevel(Level.DEBUG);
 	}
 	
+	@AfterMethod
 	@AfterClass
 	void tearDown()
 	{

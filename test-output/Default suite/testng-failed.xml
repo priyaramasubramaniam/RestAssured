@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.RestAssured.TestCases.TC003_Post_Employee_Record">
+      <class name="com.RestAssured.TestCases.TC004_UPDATE_Employee_Record">
         <methods>
-          <include name="createEmployee"/>
-          <include name="checkResponsePayload"/>
           <include name="setup"/>
+          <include name="checkStausCode"/>
+          <include name="checkStatusLine"/>
         </methods>
-      </class> <!-- com.RestAssured.TestCases.TC003_Post_Employee_Record -->
+      </class> <!-- com.RestAssured.TestCases.TC004_UPDATE_Employee_Record -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

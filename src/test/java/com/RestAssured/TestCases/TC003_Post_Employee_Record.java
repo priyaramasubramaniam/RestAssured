@@ -14,6 +14,9 @@ Content Encoding : gzip
 
 package com.RestAssured.TestCases;
 
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
 import java.net.http.HttpRequest;
 
 import org.json.simple.JSONObject;
@@ -33,29 +36,45 @@ public class TC003_Post_Employee_Record extends TestBase{
 	@BeforeClass
 	public void createEmployee() throws InterruptedException
 	{
-		RestAssured.baseURI = "http://dummy.restapiexample.com/api/v1/";
+		logger.info("*********Started TC004_Put_Employee_Record **********");
+		
+		RestAssured.baseURI = "http://dummy.restapiexample.com/api/v1";
 		httpRequest = RestAssured.given();
-		
+
+		// JSONObject is a class that represents a simple JSON. We can add Key-Value pairs using the put method
+		//{"name":"John123X","salary":"123","age":"23"}
 		JSONObject requestParams = new JSONObject();
-		requestParams.put("name", "Priya");
-		requestParams.put("salary", 1000);
-		requestParams.put("age", 25);
+		requestParams.put("name", empName); // Cast
+		requestParams.put("salary", empSalary);
+		requestParams.put("age", empAge);
 		
+		// Add a header stating the Request body is a JSON
 		httpRequest.header("Content-Type", "application/json");
+
+		// Add the Json to the body of the request
 		httpRequest.body(requestParams.toJSONString());
-		
+
 		response = httpRequest.request(Method.POST, "/create");
-			
+		
+		String responseBody = response.getBody().asString();
+		System.out.println(responseBody);
+		System.out.println(response.getBody().jsonPath().get("id"));
+		
 		Thread.sleep(5000);
+
 	}
 	
 	@Test
 	void checkResponsePayload()
 	{
+		logger.info("**************Response Payload*************");
 		String responseBody = response.getBody().asString();
-		Assert.assertEquals(responseBody.contains("Priya"), true);
-		Assert.assertEquals(responseBody.contains("salary"), "1000");
-		Assert.assertEquals(responseBody.contains("age"), "25");
+		AssertJUnit.assertEquals(responseBody.contains(empName), true);
+		System.out.println(empName);
+		AssertJUnit.assertEquals(responseBody.contains(empSalary), true);
+		System.out.println(empSalary);
+		AssertJUnit.assertEquals(responseBody.contains(empAge), true);
+		System.out.println(empAge);
 	}
 	
 	@Test
@@ -63,7 +82,7 @@ public class TC003_Post_Employee_Record extends TestBase{
 	{
 		logger.info("************Status code is 200***************");
 		int statusCode = response.getStatusCode();
-		Assert.assertEquals(statusCode, 200);
+		AssertJUnit.assertEquals(statusCode, 200);
 	}
 
 	@Test
@@ -71,7 +90,7 @@ public class TC003_Post_Employee_Record extends TestBase{
 	{
 		logger.info("************Status Line is HTTP/1.1 201 OK***************");
 		String statusLine = response.getStatusLine();
-		Assert.assertEquals(statusLine, "HTTP/1.1 200 OK", "Status line is HTTP/1.1 200 OK");
+		AssertJUnit.assertEquals(statusLine, "HTTP/1.1 200 OK", "Status line is HTTP/1.1 200 OK");
 	}
 	
 }
